@@ -1,0 +1,188 @@
+{
+  "info": {
+    "_postman_id": "098d1f39-8430-4ff8-9470-16a0d109d92f",
+    "name": "SchudulerCollection",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "55894029",
+    "_collection_link": "https://go.postman.co/collection/55894029-098d1f39-8430-4ff8-9470-16a0d109d92f?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Unauthorized",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Should return 401 Unauthorized for unauthenticated request\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://scheduler.ghost-stories.org/api/get/",
+          "protocol": "https",
+          "host": [
+            "scheduler",
+            "ghost-stories",
+            "org"
+          ],
+          "path": [
+            "api",
+            "get",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Token",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const data = pm.response.json();\r",
+              "\r",
+              "pm.environment.set(\"access_token\", data.access);\r",
+              "pm.environment.set(\"refresh_token\", data.refresh);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"username\": \"test\",\r\n  \"password\": \"test123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://scheduler.ghost-stories.org/api/token/",
+          "protocol": "https",
+          "host": [
+            "scheduler",
+            "ghost-stories",
+            "org"
+          ],
+          "path": [
+            "api",
+            "token",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Authorized Get",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": " {{access_token}}",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://scheduler.ghost-stories.org/api/get/",
+          "protocol": "https",
+          "host": [
+            "scheduler",
+            "ghost-stories",
+            "org"
+          ],
+          "path": [
+            "api",
+            "get",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "UnautorizedAdd",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Should return 401 Unauthorized for missing token\", function () {\r",
+              "    pm.response.to.have.status(401);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"date\": \"2026-06-21T14:30\",\r\n  \"todo\": \"unauthorized test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://scheduler.ghost-stories.org/api/add/",
+          "protocol": "https",
+          "host": [
+            "scheduler",
+            "ghost-stories",
+            "org"
+          ],
+          "path": [
+            "api",
+            "add",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
