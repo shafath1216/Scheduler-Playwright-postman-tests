@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "098d1f39-8430-4ff8-9470-16a0d109d92f",
-    "name": "SchudulerCollection",
+    "name": "SchedulerCollection",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "55894029",
     "_collection_link": "https://go.postman.co/collection/55894029-098d1f39-8430-4ff8-9470-16a0d109d92f?source=collection_link"
@@ -51,10 +51,25 @@
           "listen": "test",
           "script": {
             "exec": [
-              "const data = pm.response.json();\r",
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
               "\r",
-              "pm.environment.set(\"access_token\", data.access);\r",
-              "pm.environment.set(\"refresh_token\", data.refresh);"
+              "const json = pm.response.json();\r",
+              "\r",
+              "pm.environment.set(\"access_token\", json.access);\r",
+              "pm.environment.set(\"refresh_token\", json.refresh);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        },
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              ""
             ],
             "type": "text/javascript",
             "packages": {},
@@ -114,7 +129,7 @@
           "bearer": [
             {
               "key": "token",
-              "value": "{{access_token}}",
+              "value": " {{access_token}}",
               "type": "string"
             }
           ]
@@ -181,6 +196,14 @@
             ""
           ]
         }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "GET",
+        "header": []
       },
       "response": []
     }
